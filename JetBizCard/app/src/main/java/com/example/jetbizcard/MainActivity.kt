@@ -7,11 +7,15 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,6 +45,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CreateBizCard() {
+    val buttonClickState = remember {
+        mutableStateOf(false)
+    }
     Surface(modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight()) {
@@ -65,13 +72,20 @@ fun CreateBizCard() {
                 CreateInfo()
                 Button(
                     onClick = {
-                        Log.d("Clicked", "Clicked!!!")
+                        buttonClickState.value = !buttonClickState.value
                     }
                 ) {
                     Text(
                         text = "Portfolio",
                         style = MaterialTheme.typography.button
                     )
+                }
+                if(buttonClickState.value) {
+                    Content()
+                } else {
+                    Box() {
+
+                    }
                 }
             }
         }
@@ -84,7 +98,8 @@ fun Content() {
     Box(
         modifier = Modifier
             .fillMaxHeight()
-            .fillMaxWidth().padding(5.dp)
+            .fillMaxWidth()
+            .padding(5.dp)
     ) {
         Surface(
             modifier = Modifier
@@ -105,7 +120,12 @@ fun Content() {
 
 @Composable
 fun Portfolio(data: List<String>) {
-    Text("Portfolio projects go here")
+    LazyColumn {
+        items(data) { item ->
+            Text(item)
+
+        }
+    }
 }
 
 @Composable
