@@ -1,6 +1,7 @@
 package com.example.jetbizcard
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,11 +59,44 @@ fun CreateBizCard() {
             ) {
                 CreateImageProfile()
                 Divider(
-                    thickness = 2.dp
+                    thickness = 2.dp,
+                    // startIndent = 50.dp
                 )
-                Text(text = "Michael P.")
+                CreateInfo()
+                Button(
+                    onClick = {
+                        Log.d("Clicked", "Clicked!!!")
+                    }
+                ) {
+                    Text(
+                        text = "Portfolio",
+                        style = MaterialTheme.typography.button
+                    )
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun CreateInfo() {
+    Column(
+        modifier = Modifier.padding(5.dp)
+    ) {
+        Text(
+            text = "Miles P.",
+            style = MaterialTheme.typography.h4,
+            color = MaterialTheme.colors.primaryVariant
+        )
+        Text(
+            text = "Android Compose Programmer",
+            modifier = Modifier.padding(3.dp)
+        )
+        Text(
+            text = "@themilesCompose",
+            modifier = Modifier.padding(3.dp),
+            style = MaterialTheme.typography.subtitle1
+        )
     }
 }
 
