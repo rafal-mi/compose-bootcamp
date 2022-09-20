@@ -35,7 +35,6 @@ class MainActivity : ComponentActivity() {
 fun MyApp(content: @Composable () -> Unit) {
     JetTipAppTheme {
         Surface(
-            modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
             content()
