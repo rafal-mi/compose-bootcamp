@@ -1,6 +1,7 @@
 package com.bawp.jettipapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -85,6 +86,19 @@ fun TopHeader(totalPerPerson: Double = 0.0) {
 @Preview
 @Composable
 fun MainContent() {
+    BillForm() { billAmt ->
+        Log.d(TAG, "MainContent: $billAmt")
+
+    }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun BillForm(
+    modifier: Modifier = Modifier,
+    onValChange: (String) -> Unit = {}
+
+) {
     val totalBillState = remember {
         mutableStateOf("")
     }
@@ -109,19 +123,17 @@ fun MainContent() {
                 isSingleLine = true,
                 onAction = KeyboardActions {
                     if(!validState) return@KeyboardActions
-                    //TODO - onvaluechanged
+                    onValChange(totalBillState.value.trim())
 
                     keyboardController?.hide()
-
                 }
             )
 
         }
 
     }
+
 }
-
-
 
 
 @Preview(showBackground = true)
@@ -131,3 +143,5 @@ fun DefaultPreview() {
         TopHeader()
     }
 }
+
+const val TAG = "JetTip"
