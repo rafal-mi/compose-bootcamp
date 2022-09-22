@@ -63,6 +63,7 @@ fun TopHeader(totalPerPerson: Double = 0.0) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(15.dp)
             // .clip(shape = RoundedCornerShape(corner = CornerSize(12.dp)))
             .clip(shape = CircleShape.copy(all = CornerSize(12.dp))),
         color = Color(0xFFE9D7F7)
@@ -92,9 +93,11 @@ fun TopHeader(totalPerPerson: Double = 0.0) {
 @Preview
 @Composable
 fun MainContent() {
-    BillForm() { billAmt ->
-        Log.d(TAG, "MainContent: $billAmt")
+    Column(modifier = Modifier.padding(all = 12.dp)) {
+        BillForm() { billAmt ->
+            Log.d(TAG, "MainContent: $billAmt")
 
+        }
     }
 }
 
@@ -115,6 +118,7 @@ fun BillForm(
         mutableStateOf(0f)
     }
     val keyboardController = LocalSoftwareKeyboardController.current
+    TopHeader()
     Surface(
         modifier = Modifier
             .padding(2.dp)
@@ -192,7 +196,13 @@ fun BillForm(
                 Slider(value = sliderPositionState.value,
                     onValueChange = { newVal ->
                         sliderPositionState.value = newVal
-                    })
+                    },
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                    steps = 5,
+                    onValueChangeFinished = {}
+                )
+
+
             }
 
 //            } else {
