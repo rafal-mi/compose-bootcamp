@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bawp.jettipapp.components.InputField
 import com.bawp.jettipapp.ui.theme.JetTipAppTheme
+import com.bawp.jettipapp.util.calculateTotalTip
 import com.bawp.jettipapp.widgets.RoundIconButton
 
 class MainActivity : ComponentActivity() {
@@ -125,6 +126,10 @@ fun BillForm(
 
     val range = IntRange(start = 1, endInclusive = 8)
 
+    val tipAmountState = remember {
+        mutableStateOf(0.0)
+    }
+
     TopHeader()
     Surface(
         modifier = Modifier
@@ -197,7 +202,7 @@ fun BillForm(
                 Text(text = "Tip",
                     modifier = Modifier.align(alignment = Alignment.CenterVertically))
                 Spacer(modifier = Modifier.width(200.dp))
-                Text(text = "$33.00",
+                Text(text = "$ ${tipAmountState.value}",
                     modifier = Modifier.align(alignment = Alignment.CenterVertically))
             }
 
@@ -210,13 +215,12 @@ fun BillForm(
                 Slider(value = sliderPositionState.value,
                     onValueChange = { newVal ->
                         sliderPositionState.value = newVal
+                        tipAmountState.value = calculateTotalTip(totalBill = totalBillState.value.toDouble(), tipPercentage = tipPercentage)
                     },
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                     steps = 5,
                     onValueChangeFinished = {}
                 )
-
-
             }
 
 //            } else {
@@ -228,7 +232,6 @@ fun BillForm(
     }
 
 }
-
 
 @Preview(showBackground = true)
 @Composable
