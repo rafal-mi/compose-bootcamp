@@ -154,6 +154,10 @@ fun BillForm(
         )
     }
 
+    fun update2() {
+
+    }
+
     TopHeader(totalPerPerson = totalPerPersonState.value)
     Surface(
         modifier = modifier
@@ -185,7 +189,7 @@ fun BillForm(
                 Row(
                     modifier = modifier
                         .padding(3.dp),
-                    horizontalArrangement = Ar4rangement.Start
+                    horizontalArrangement = Arrangement.Start
                 ) {
                     Text(
                         "Split",
