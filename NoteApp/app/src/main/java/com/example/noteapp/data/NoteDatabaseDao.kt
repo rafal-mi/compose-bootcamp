@@ -3,6 +3,7 @@ package com.example.noteapp.data
 import androidx.room.*
 import com.example.noteapp.model.Note
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 @Dao
 interface NoteDatabaseDao {
@@ -10,7 +11,7 @@ interface NoteDatabaseDao {
     fun getNotes(): Flow<List<Note>>
 
     @Query("SELECT * FROM notes_tbl WHERE id = :id")
-    suspend fun getNoteById(id: String)
+    suspend fun getNoteById(id: String): Note
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(note: Note)
@@ -18,7 +19,7 @@ interface NoteDatabaseDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(note: Note)
 
-    @Query("DELETE * FROM notes_tbl")
+    @Query("DELETE FROM notes_tbl")
     suspend fun deleteAll()
 
     @Delete
