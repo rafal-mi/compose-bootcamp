@@ -7,4 +7,7 @@ import dagger.hilt.android.HiltAndroidApp
 class NoteApplication : Application() {
 
 
+    companion object {
+        const val TAG = "Notes"
+    }
 }
