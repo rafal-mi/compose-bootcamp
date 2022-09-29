@@ -5,4 +5,8 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class TriviaApplication: Application() {
+
+    companion object {
+        const val TAG = "Trivia"
+    }
 }

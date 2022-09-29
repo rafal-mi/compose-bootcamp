@@ -6,5 +6,18 @@ import com.example.triviaapp.network.QuestionApi
 import javax.inject.Inject
 
 class QuestionRepository @Inject constructor(private val api: QuestionApi) {
-    private val listOfQuestions = DataOrException<ArrayList<QuestionItem>, Boolean, Exception>()
+    private val dataOrException = DataOrException<ArrayList<QuestionItem>, Boolean, Exception>()
+
+    suspend fun getAllQuestions(): DataOrException<ArrayList<QuestionItem>, Boolean, Exception> {
+        try {
+            dataOrException.loading = true
+            dataOrException.data = api.getAllQuestions()
+            if(dataOrException.toString().isNotEmpty()) dataOrException.loading = false
+
+        } catch(exception: Exception) {
+            dataOrException.e = exception
+
+        }
+        return dataOrException
+    }
 }
