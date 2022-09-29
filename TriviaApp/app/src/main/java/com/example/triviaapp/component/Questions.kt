@@ -2,14 +2,22 @@ package com.example.triviaapp.component
 
 import android.util.Log
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
@@ -21,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.triviaapp.TriviaApplication
+import com.example.triviaapp.model.QuestionItem
 import com.example.triviaapp.screens.QuestionsViewModel
 import com.example.triviaapp.util.AppColors
 
@@ -37,9 +46,17 @@ fun Questions(viewModel: QuestionsViewModel) {
     }
 }
 
-@Preview
+// @Preview
 @Composable
-fun QuestionDisplay() {
+fun QuestionDisplay(
+    question: QuestionItem,
+    questionIndex: MutableState<Int>,
+    viewModel: QuestionsViewModel,
+    onNextClicked: (Int) -> Unit
+) {
+    val choicesState = remember(question) {
+        question.choices.toMutableList()
+    }
     val pathEffect = PathEffect.dashPathEffect(intervals = floatArrayOf(10f, 10f), phase = 0f)
     androidx.compose.material.Surface(
         modifier = Modifier
@@ -53,6 +70,34 @@ fun QuestionDisplay() {
             horizontalAlignment = Alignment.Start) {
             QuestionTracker()
             DrawDottedLine(pathEffect = pathEffect)
+
+            Column {
+                Text(text = "What's the meaning of all this?",
+                    modifier = Modifier.padding(6.dp)
+                        .align(alignment = Alignment.Start)
+                        .fillMaxHeight(0.3f),
+                    fontSize = 17.sp,
+                    color = AppColors.mOffWhite,
+                    fontWeight = FontWeight.Bold,
+                    lineHeight = 22.sp
+                )
+            }
+            choicesState.forEachIndexed() { index, answerText ->
+                Row(modifier = Modifier
+                    .padding(3.dp)
+                    .fillMaxWidth()
+                    .height(45.dp)
+                    .border(width = 4.dp, brush = Brush.linearGradient(
+                        colors = listOf(AppColors.mOffDarkPurple, AppColors.mOffDarkPurple)),
+                        shape = RoundedCornerShape(15.dp))
+                    .clip(RoundedCornerShape(topStartPercent = 50,
+                        topEndPercent = 50,
+                        bottomEndPercent = 50,
+                        bottomStartPercent = 50 ))
+                    .background(Color.Transparent)) {
+
+                }
+            }
         }
 
     }
