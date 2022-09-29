@@ -13,7 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.triviaapp.TriviaApplication.Companion.TAG
+import com.example.triviaapp.component.Questions
 import com.example.triviaapp.screens.QuestionsViewModel
+import com.example.triviaapp.screens.TriviaHome
 import com.example.triviaapp.ui.theme.TriviaAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,26 +35,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-@Composable
-fun TriviaHome(viewModel: QuestionsViewModel = hiltViewModel()) {
-    Questions(viewModel)
-
-}
-
-@Composable
-fun Questions(viewModel: QuestionsViewModel) {
-    val questions = viewModel.data.value.data?.toMutableList()
-    if(viewModel.data.value.loading == true) {
-        Log.d(TAG, "Questions: ...Loading...")
-    } else {
-        questions?.forEach { questionItem ->
-            Log.d(TAG, "Question: ${questionItem.question}")
-        }
-    }
-
-
 }
 
 @Preview(showBackground = true)
